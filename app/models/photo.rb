@@ -10,9 +10,9 @@ class Photo < ActiveRecord::Base
   validates_presence_of :title
   
   before_validation :set_title
-  before_save :ensure_file
-  before_create :exif_read
-  after_create :create_thumbnails
+  after_save :ensure_file
+  #before_create :exif_read
+  after_create :store_file
   #before_update :exif_write # should only write if tags are changed as images can be large and thus ExifTool will take a while to write to the file
   before_destroy :destroy_file
 
@@ -89,13 +89,23 @@ class Photo < ActiveRecord::Base
   # Thanks to bug in Flash 8 the content type is always set to application/octet-stream.
   # From: http://blog.airbladesoftware.com/2007/8/8/uploading-files-with-swfupload
   def swf_uploaded_data=(data)
+    @data = data
     data.content_type = MIME::Types.type_for(data.original_filename)
     self.title = data.original_filename
-    self.path = self.album.path + "/" + data.original_filename.parameterize
-    File.open(APP_CONFIG[:photos_path] + self.path, 'wb') { |f| f.write(data.read) }
-    system("jhead -autorot '#{APP_CONFIG[:photos_path] + self.path}'")
+    #self.path = self.album.path + "/" + data.original_filename.parameterize
+    #File.open(APP_CONFIG[:photos_path] + self.path, 'wb') { |f| f.write(data.read) }
+    #system("jhead -autorot '#{APP_CONFIG[:photos_path] + self.path}'")
   end
-  
+
+  def store_file
+    self.path = self.album.path + "/" + "#{self.id}-" + @data.original_filename.parameterize
+    File.open(APP_CONFIG[:photos_path] + self.path, 'wb') { |f| f.write(@data.read) }
+    system("jhead -autorot '#{APP_CONFIG[:photos_path] + self.path}'")
+    exif_read
+    create_thumbnails
+    self.save!
+  end
+
   def create_thumbnails
     # TODO: thumbnails size should be set in settings.yml
 
@@ -176,6 +186,7 @@ class Photo < ActiveRecord::Base
     File.delete( self.path_modified("_collection") ) if File.exists?( self.path_modified("_collection") )
     File.delete( self.path_modified("_album") ) if File.exists?( self.path_modified("_album") )
     File.delete( self.path_modified("_single") ) if File.exists?( self.path_modified("_single") )
+    File.delete( self.path_modified("_small") ) if File.exists?( self.path_modified("_single") )
     File.delete( self.path_modified("_preview") ) if File.exists?( self.path_modified("_preview") )
   end
 end

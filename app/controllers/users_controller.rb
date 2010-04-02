@@ -22,6 +22,7 @@ class UsersController < ApplicationController
  
   def edit
     @user = @current_user
+    @albums = Album.all
   end
   
   def update

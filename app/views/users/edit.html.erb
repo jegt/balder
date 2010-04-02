@@ -3,6 +3,10 @@
 <% form_for @user, :url => account_path do |f| %>
   <%= f.error_messages %>
   <%= render :partial => "form", :object => f %>
+  <br />
+  <%= f.label :default_album_id %><br />
+  <%= f.select :default_album_id, @albums.map{|a| [a.title,a.id]}%>
+  <br/>
   <%= f.submit "Update" %>
 <% end %>
  
