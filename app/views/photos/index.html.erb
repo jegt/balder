@@ -1,3 +1,7 @@
+<% content_for :head do %>
+    <link href="<%= atom_stream_url(:tag_id => params[:tag_id]) %>" rel="alternate" title="ATOM" type="application/atom+xml" />
+<% end %>
+
 <ul><%= render :partial => 'photos/thumb',:collection => @photos, :as => :photo %></ul>
 
 <% content_for :action_links do %>

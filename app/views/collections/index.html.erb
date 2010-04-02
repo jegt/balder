@@ -1,3 +1,9 @@
+<% content_for :head do %>
+    <link href="<%= atom_stream_url %>" rel="alternate" title="ATOM" type="application/atom+xml" />
+<% end %>
+
+Photo stream
+
 <div id="multipleimages">
 <% for collection in @collections %>
 	<div class="thumb">

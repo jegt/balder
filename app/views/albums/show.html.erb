@@ -1,3 +1,7 @@
+<% content_for :head do %>
+    <link href="<%= atom_stream_url(:album_id => @album.id) %>" rel="alternate" title="ATOM" type="application/atom+xml" />
+<% end %>
+
 <h2><%= @album.title %></h2>
 
 <div id="multipleimages">

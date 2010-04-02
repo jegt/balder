@@ -3,10 +3,12 @@
 <div id="fullimage">
 	<div id="navigation">
 		<p class="links">
-			<% unless @previous.nil? %>
-			<%= link_to "Previous", [ @photo.album.collections.first, @photo.album, @previous] %>
-			<% unless @next.nil? %>
-			 | 
+            <%= link_to "Album", [ @photo.album.collections.first, @photo.album] %>
+            |
+            <% unless @previous.nil? %>
+            <%= link_to "Previous", [ @photo.album.collections.first, @photo.album, @previous] %>
+            <% unless @next.nil? %>
+            | 
 			<% end %>
 			<% end %>
 			<% unless @next.nil? %>

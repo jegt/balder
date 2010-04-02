@@ -1,3 +1,7 @@
+<% content_for :head do %>
+    <link href="<%= atom_stream_url(:collection_id => @collection.id) %>" rel="alternate" title="ATOM" type="application/atom+xml" />
+<% end %>
+
 <h2><%= h @collection.title %></h2>
 <p><%= h @collection.description %></p>
 

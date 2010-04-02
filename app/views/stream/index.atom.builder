@@ -1,21 +1,19 @@
-atom_feed(:root_url => root_url(:query => @query), :schema_date => "2010-03-23") do |feed|
-  feed.title("Fisklistan: #{@query}")
-  if (@fish && @fish.size > 0)
-    feed.updated(Time.now.utc)
+atom_feed(:root_url => stream_url()+"?#{request.query_string}", :schema_date => "2010-04-02") do |feed|
+  feed.title(@title)
+  feed.updated(@photos.first.created_at)
 
-    for fish in @fish
-      feed.entry(fish, { :url => root_url(:query => @query), :published => fish.fish_list.created_at, :updated_at => fish.created_at }) do |entry|
-       # entry.title(activity_title(activity))  #activity.description_presentation)
+  for photo in @photos
+    feed.entry(photo, { :url => photo_url(photo), :published => photo.created_at, :updated_at => photo.updated_at }) do |entry|
+      # entry.title(activity_title(activity))  #activity.description_presentation)
 
-        entry.title("#{fish.common_name} (#{fish.latin_name}) #{(fish.price*3).round}kr")
+      entry.title("#{photo.title}")
 
-        entry.content("#{fish.common_name} (#{fish.latin_name}) #{(fish.price*3).round}kr", :type => 'html')
+      entry.content(render_to_string(:partial => 'photo', :locals => {:photo => photo}), :type => 'html')
 
 #        entry.author do |author|
 #          author.name(activity.user.fullname)
 #          author.email(activity.user.email)
 #        end
-      end
     end
   end
 end

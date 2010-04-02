@@ -1,13 +1,7 @@
-<% for photo in @photos %>
-
-    <div id="fullimage">
-        <p>
-          <%= photo.digitized_at.strftime("%Y-%m-%d %H:%M") if photo.digitized_at %>
-          <%= photo.tags.sort.map {|t| link_to(t.title, tag_photos_path(t)) }.join(', ')%><br/>
-          <%= link_to image_tag(photo.path_modified_public("small")), photo %><br/>
-          <%= photo.description %>
-        </p>
-    </div>
-
+<% content_for :head do %>
+    <link href="<%= request.path+'.atom?'+request.query_string %>" rel="alternate" title="ATOM" type="application/atom+xml" />
 <% end %>
+
+<%= render :partial => 'photo', :collection => @photos %>
+
 <%= will_paginate @photos %>

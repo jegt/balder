@@ -19,8 +19,8 @@ class Photo < ActiveRecord::Base
   attr_accessor :tag_list
   #attr_protected :path
 
-  cattr_reader :per_page
-  @@per_page = 10
+  #cattr_reader :per_page
+  #@@per_page = 10
 
   named_scope :untouched, :conditions => "photos.description IS NULL AND photos.id NOT IN ( SELECT photo_id FROM photo_tags)", :include => :album 
   named_scope :previous, lambda { |p,a| { :conditions => ["id < :id AND album_Id = :album ", { :id => p, :album => a } ], :limit => 1, :order => "id DESC"} }
@@ -143,7 +143,13 @@ class Photo < ActiveRecord::Base
     self.title = photo.DocumentName if self.title.nil?
     self.description = photo.ImageDescription if self.description.nil? || photo.ImageDescription != 'Exif_JPEG_PICTURE'
     #self.tag_list = (self.tags.empty? ? "" : self.album.tag_list) + " " + (photo.Keywords.nil? ? "" : photo.Keywords.to_a.map { |tag| tag.gsub(" ", "_") }.join(" "))
-    self.digitized_at = photo.DateTimeOriginal if self.digitized_at.nil?
+
+    if(photo.DateTimeOriginal.class = Time)
+      self.digitized_at = photo.DateTimeOriginal if self.digitized_at.nil?
+    else
+      self.digitized_at = Time.parse(photo.DateTimeOriginal.split(':', 3).join('-')) if self.digitized_at.nil?
+    end
+
   end
   
   def exif_write

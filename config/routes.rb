@@ -23,6 +23,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users, :controller => "admin/users"
 
   map.stream '/stream', :controller => 'stream'
+  map.atom_stream '/stream.atom', :controller => 'stream', :format => 'atom'
 
   map.root :controller => "collections"
 
