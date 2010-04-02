@@ -16,8 +16,8 @@ Rails::Initializer.run do |config|
   
   config.load_paths += %W( #{RAILS_ROOT}/app/middleware )
 
-  config.time_zone = 'Copenhagen'
+  config.time_zone = 'Stockholm'
 
-  config.i18n.default_locale = 'no-NB'
+  config.i18n.default_locale = 'sv-SE'
 
 end

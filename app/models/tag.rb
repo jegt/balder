@@ -11,7 +11,9 @@ class Tag < ActiveRecord::Base
   end
 
   def to_param
-    "#{id}-#{title.parameterize}"
+    p = "#{id}-#{title.parameterize}"
+    logger.debug "ID: "+p
+    p
   end
 
    protected

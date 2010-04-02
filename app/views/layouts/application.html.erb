@@ -11,7 +11,7 @@
 <div id="container">
 
 <div id="header">
-	<%= breadcrumbs %>
+	<%= breadcrumbs %> &nbsp;| <%= link_to 'STREAM', stream_path %>
 	<div id="action_links">
 	<%= yield :action_links %>
 	<% if current_user %>

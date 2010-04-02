@@ -21,7 +21,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :tags, :has_many => [ :photos, :albums ], :shallow => true
   
   map.resources :users, :controller => "admin/users"
-  
+
+  map.stream '/stream', :controller => 'stream'
+
   map.root :controller => "collections"
 
 end

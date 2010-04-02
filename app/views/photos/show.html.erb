@@ -19,8 +19,8 @@
 
 <p><%= @photo.description %></p>
 <p>Tagged with: 
-<% for tag in @photo.tags.map{|tag|tag.title}.sort %>
-<%= link_to tag, tag_photos_path(tag) %>
+<% for tag in @photo.tags.sort %>
+<%= link_to tag.title, tag_photos_path(tag) %>
 <% end %>
 
 <% content_for :action_links do %>

@@ -70,6 +70,11 @@ class Photo < ActiveRecord::Base
     #end
   end
 
+  def update_exif
+    exif_read
+    self.save!
+  end
+
   # Map file extensions to mime types.
   # Thanks to bug in Flash 8 the content type is always set to application/octet-stream.
   # From: http://blog.airbladesoftware.com/2007/8/8/uploading-files-with-swfupload
@@ -83,7 +88,7 @@ class Photo < ActiveRecord::Base
   def create_thumbnails
     # TODO: thumbnails size should be set in settings.yml
 
-    return if File.exists?(APP_CONFIG[:thumbs_path] + self.album.path + "/" + self.id.to_s + "_collection" + self.extension)
+    #return if File.exists?(APP_CONFIG[:thumbs_path] + self.album.path + "/" + self.id.to_s + "_collection" + self.extension)
     puts "thumb " + self.path_original
     ImageScience.with_image(self.path_original) do |img|
         img.cropped_thumbnail(200) do |thumb|
@@ -94,6 +99,9 @@ class Photo < ActiveRecord::Base
         end
         img.thumbnail(210) do |thumb|
           thumb.save APP_CONFIG[:thumbs_path] + self.album.path + "/" + self.id.to_s + "_preview" + self.extension
+        end
+        img.thumbnail(600) do |thumb|
+          thumb.save APP_CONFIG[:thumbs_path] + self.album.path + "/" + self.id.to_s + "_small" + self.extension
         end
         img.thumbnail(950) do |thumb|
           thumb.save APP_CONFIG[:thumbs_path] + self.album.path + "/" + self.id.to_s + "_single" + self.extension
@@ -131,7 +139,8 @@ class Photo < ActiveRecord::Base
     self.latitude = photo.GPSLatitude if self.latitude.nil?
     self.title = photo.DocumentName if self.title.nil?
     self.description = photo.ImageDescription if self.description.nil? || photo.ImageDescription != 'Exif_JPEG_PICTURE'
-    self.tag_list = (self.tags.empty? ? "" : self.album.tag_list) + " " + (photo.Keywords.nil? ? "" : photo.Keywords.to_a.map { |tag| tag.gsub(" ", "_") }.join(" "))
+    #self.tag_list = (self.tags.empty? ? "" : self.album.tag_list) + " " + (photo.Keywords.nil? ? "" : photo.Keywords.to_a.map { |tag| tag.gsub(" ", "_") }.join(" "))
+    self.digitized_at = photo.DateTimeOriginal if self.digitized_at.nil?
   end
   
   def exif_write
