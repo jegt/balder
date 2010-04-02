@@ -25,6 +25,8 @@ ActionController::Routing::Routes.draw do |map|
   map.stream '/stream', :controller => 'stream'
   map.atom_stream '/stream.atom', :controller => 'stream', :format => 'atom'
 
+  map.incoming '/incoming', :controller => 'incoming'
+
   map.root :controller => "collections"
 
 end
