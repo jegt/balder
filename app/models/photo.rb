@@ -18,7 +18,10 @@ class Photo < ActiveRecord::Base
 
   attr_accessor :tag_list
   #attr_protected :path
-  
+
+  cattr_reader :per_page
+  @@per_page = 10
+
   named_scope :untouched, :conditions => "photos.description IS NULL AND photos.id NOT IN ( SELECT photo_id FROM photo_tags)", :include => :album 
   named_scope :previous, lambda { |p,a| { :conditions => ["id < :id AND album_Id = :album ", { :id => p, :album => a } ], :limit => 1, :order => "id DESC"} }
   named_scope :next, lambda { |p,a| { :conditions => ["id > :id AND album_Id = :album ", { :id => p, :album => a } ], :limit => 1, :order => "id ASC"} }
