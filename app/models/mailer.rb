@@ -2,7 +2,7 @@
 class Mailer < ActionMailer::Base
 
   def receive(email)
-    logger.debug email.inspect
+    logger.info email.inspect
 =begin
     page = Page.find_by_address(email.to.first)
     page.emails.create(
