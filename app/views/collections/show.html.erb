@@ -3,6 +3,7 @@
 <% end %>
 
 <h2><%= h @collection.title %></h2>
+(<%= link_to 'photo stream', stream_path(:collection_id => @collection.id) %>)
 <p><%= h @collection.description %></p>
 
 <% for album in @albums %>

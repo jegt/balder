@@ -4,6 +4,8 @@
 
 <h2><%= @album.title %></h2>
 
+(<%= link_to 'photo stream', stream_path(:album_id => @album.id) %>)
+
 <div id="multipleimages">
 <table>
 	<% count = 0.0 %>

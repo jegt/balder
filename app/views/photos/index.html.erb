@@ -2,6 +2,8 @@
     <link href="<%= atom_stream_url(:tag_id => params[:tag_id]) %>" rel="alternate" title="ATOM" type="application/atom+xml" />
 <% end %>
 
+(<%= link_to('photo stream', stream_path(:tag_id => params[:tag_id])) if params[:tag_id] %>)
+
 <ul><%= render :partial => 'photos/thumb',:collection => @photos, :as => :photo %></ul>
 
 <% content_for :action_links do %>

@@ -14,7 +14,7 @@ class StreamController < ApplicationController
     elsif(params[:collection_id])
       collection = Collection.find(params[:collection_id])
       @title = "Photo stream for colleciton #{collection.title}"
-      @photos = collection.photos.paginate(:all, :order => 'digitized_at DESC', :page => params[:page], :per_page => per_page)
+      @photos = collection.photos.paginate(:order => 'digitized_at DESC', :page => params[:page], :per_page => per_page)
     elsif(params[:tag_id])
       tag = Tag.find(params[:tag_id])
       @title = "Photo stream for tag #{tag.title}"
