@@ -5,18 +5,18 @@
 		<p class="links">
             <%= link_to "Album", [ @photo.album.collections.first, @photo.album] %>
             |
-            <% unless @previous.nil? %>
-            <%= link_to "Previous", [ @photo.album.collections.first, @photo.album, @previous] %>
-            <% unless @next.nil? %>
+            <% unless @photo.previous.nil? %>
+            <%= link_to "Previous", [ @photo.album.collections.first, @photo.album, @photo.previous] %>
+            <% unless @photo.next.nil? %>
             | 
 			<% end %>
 			<% end %>
-			<% unless @next.nil? %>
-			<%= link_to "Next", [ @photo.album.collections.first, @photo.album, @next] %> 
+			<% unless @photo.next.nil? %>
+			<%= link_to "Next", [ @photo.album.collections.first, @photo.album, @photo.next] %> 
 			<% end %>
 		</p>
 	</div>
-  <p><%= link_to_if @next, image_tag(@photo.path_modified_public("single")), [ @photo.album.collections.first, @photo.album, @next] %></p>
+  <p><%= link_to_if @photo.next, image_tag(@photo.path_modified_public("single")), [ @photo.album.collections.first, @photo.album, @photo.next] %></p>
 </div>
 
 <p><%= @photo.description %></p>

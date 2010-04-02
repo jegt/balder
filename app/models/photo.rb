@@ -23,8 +23,8 @@ class Photo < ActiveRecord::Base
   #@@per_page = 10
 
   named_scope :untouched, :conditions => "photos.description IS NULL AND photos.id NOT IN ( SELECT photo_id FROM photo_tags)", :include => :album 
-  named_scope :previous, lambda { |p,a| { :conditions => ["id < :id AND album_Id = :album ", { :id => p, :album => a } ], :limit => 1, :order => "id DESC"} }
-  named_scope :next, lambda { |p,a| { :conditions => ["id > :id AND album_Id = :album ", { :id => p, :album => a } ], :limit => 1, :order => "id ASC"} }
+  #named_scope :previous, lambda { |p,a| { :conditions => ["id < :id AND album_Id = :album ", { :id => p, :album => a } ], :limit => 1, :order => "id DESC"} }
+  #named_scope :next, lambda { |p,a| { :conditions => ["id > :id AND album_Id = :album ", { :id => p, :album => a } ], :limit => 1, :order => "id ASC"} }
 
   def to_param
     "#{id}-#{title.parameterize}"
@@ -65,7 +65,14 @@ class Photo < ActiveRecord::Base
     self.tags = ts
   end
   
-  
+  def previous
+    @previous ||= Photo.find(:first, :conditions => ["digitized_at > ?", self.digitized_at], :order => "digitized_at ASC")
+  end
+
+  def next
+    @next ||= Photo.find(:first, :conditions => ["digitized_at < ?", self.digitized_at], :order => "digitized_at DESC")
+  end
+
   def exif_info
     photo = MiniExiftool.new(self.path_original)
     #photo.tags.sort.each do |tag|

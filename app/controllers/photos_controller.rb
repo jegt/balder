@@ -47,10 +47,10 @@ class PhotosController < ApplicationController
   
   def show
     @photo = Photo.find( params[:id] )
-    previous_rs = Photo.previous( @photo.id, @photo.album )
-    @previous = previous_rs.first unless previous_rs.empty?
-    next_rs = Photo.next( @photo.id, @photo.album )
-    @next = next_rs.first unless next_rs.empty?
+    #previous_rs = Photo.previous( @photo.id, @photo.album )
+    #@previous = previous_rs.first unless previous_rs.empty?
+    #next_rs = Photo.next( @photo.id, @photo.album )
+    #@next = next_rs.first unless next_rs.empty?
     respond_to do |format|
       format.html
       format.json  { render :json => @photo }
