@@ -88,7 +88,7 @@ class Photo < ActiveRecord::Base
   def create_thumbnails
     # TODO: thumbnails size should be set in settings.yml
 
-    #return if File.exists?(APP_CONFIG[:thumbs_path] + self.album.path + "/" + self.id.to_s + "_collection" + self.extension)
+    return if File.exists?(APP_CONFIG[:thumbs_path] + self.album.path + "/" + self.id.to_s + "_collection" + self.extension)
     puts "thumb " + self.path_original
     ImageScience.with_image(self.path_original) do |img|
         img.cropped_thumbnail(200) do |thumb|
