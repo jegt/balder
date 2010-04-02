@@ -1,5 +1,5 @@
 class Album < ActiveRecord::Base
-  has_many :photos, :dependent => :destroy
+  has_many :photos, :dependent => :destroy, :order => 'digitized_at DESC'
   has_many :collection_albums
   has_many :collections, :through => :collection_albums
 
