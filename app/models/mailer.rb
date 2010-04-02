@@ -7,6 +7,8 @@ class Mailer < ActionMailer::Base
 
     user = User.find_by_email(email.from.first)
 
+    return if user.nil?
+
     album = Album.find_by_title(subject)
     album = Album.find_by_id(subject.to_i) if album.nil?
     album = user.default_album if album.nil?
