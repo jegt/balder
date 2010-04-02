@@ -86,12 +86,13 @@ class Photo < ActiveRecord::Base
     self.title = data.original_filename
     self.path = self.album.path + "/" + data.original_filename.parameterize
     File.open(APP_CONFIG[:photos_path] + self.path, 'wb') { |f| f.write(data.read) }
+    system("jhead -autorot '#{APP_CONFIG[:photos_path] + self.path}'")
   end
   
   def create_thumbnails
     # TODO: thumbnails size should be set in settings.yml
 
-    return if File.exists?(APP_CONFIG[:thumbs_path] + self.album.path + "/" + self.id.to_s + "_collection" + self.extension)
+    #return if File.exists?(APP_CONFIG[:thumbs_path] + self.album.path + "/" + self.id.to_s + "_collection" + self.extension)
     puts "thumb " + self.path_original
     ImageScience.with_image(self.path_original) do |img|
         img.cropped_thumbnail(200) do |thumb|

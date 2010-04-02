@@ -7,7 +7,7 @@
 <div id="multipleimages">
 <table>
 	<% count = 0.0 %>
-	<% for photo in @album.photos.find(:all, :order => "Id ASC") %>
+	<% for photo in @album.photos.find(:all, :order => "digitized_at DESC") %>
 	<% count += 1%>
   	<% if count == 1 || ( (count-1) / 4.0 == ( (count-1) / 4.0).to_i ) %><tr><% end %>
 	<td><%= link_to image_tag( photo.path_modified_public("preview") ), [@album.collections.first, @album, photo] %></td>
