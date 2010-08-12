@@ -27,6 +27,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.incoming '/incoming', :controller => 'incoming'
 
+  map.ip '/ip', :controller => 'ip'
+
   map.root :controller => "collections"
 
 end
